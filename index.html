@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+</head>
+<body>
+  <h2>Login</h2>
+  <form onsubmit="login(event)">
+    <label for="email">Email:</label>
+    <input type="email" id="email" required>
+    <br><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" required>
+    <br><br>
+    <button type="submit">Login</button>
+  </form>
+
+  <script>
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyB70tMA9-mU8FwX1YZEC2Jg0Ld2Pp9O0ns",
+      authDomain: "calar-ef124.firebaseapp.com",
+      projectId: "calar-ef124",
+      storageBucket: "calar-ef124.appspot.com",
+      messagingSenderId: "14740323506",
+      appId: "1:14740323506:web:21b01da950107baf6d9dab"
+    };
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Redirect logged-in users directly to gallery
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        window.location.href = "gallery.html";
+      }
+    });
+
+    // Login function
+    async function login(event) {
+      event.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        await auth.signInWithEmailAndPassword(email, password);
+        window.location.href = "gallery.html";  // Redirect to gallery.html on success
+      } catch (error) {
+        console.error("Login failed:", error.message);
+        alert("Invalid credentials, please try again.");
+      }
+    }
+  </script>
+</body>
+</html>
