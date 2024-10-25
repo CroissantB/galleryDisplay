@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Picture Displayer - Gallery</title>
+  <!-- Firebase App (the core Firebase SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <!-- Firebase Authentication SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+</head>
+<body>
+
+<h1 style="text-align: center;">Gallery</h1>
+<hr>
+
+<div id="gallery-container"></div>
+
+<!-- Firebase and authentication scripts -->
+<script>
+  // Initialize Firebase
+  const firebaseConfig = {
+      apiKey: "AIzaSyB70tMA9-mU8FwX1YZEC2Jg0Ld2Pp9O0ns",
+      authDomain: "calar-ef124.firebaseapp.com",
+      projectId: "calar-ef124",
+      storageBucket: "calar-ef124.appspot.com",
+      messagingSenderId: "14740323506",
+      appId: "1:14740323506:web:21b01da950107baf6d9dab"
+    };
+  const app = firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  // Check if the user is logged in
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      loadGallery();  // If logged in, load the gallery content
+    } else {
+      window.location.href = "index.html";  // Redirect to login page
+    }
+  });
+
+  // Function to load gallery content
+  function loadGallery() {
+    fetch('images.txt')
+      .then(response => response.text())
+      .then(data => {
+        const imageFiles = data.trim().split('\n');
+        const imageFolder = 'Displayed Pictures/';
+        const container = document.getElementById('gallery-container');
+        
+        imageFiles.forEach(imageFile => {
+          const link = document.createElement('a');
+          link.href = `display.html?img=${imageFile}`;
+          
+          const img = document.createElement('img');
+          img.src = imageFolder + imageFile;
+          img.alt = imageFile;
+          img.style.width = '30%';
+          img.style.margin = '10px';
+          
+          link.appendChild(img);
+          container.appendChild(link);
+        });
+      })
+      .catch(error => console.error('Error loading image list:', error));
+  }
+</script>
+</body>
+</html>
