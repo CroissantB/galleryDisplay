@@ -35,16 +35,23 @@
             margin: 10px;
             text-decoration: none;
             transition: transform 0.3s;
+            overflow: hidden; /* Ensure that the scaling effect doesn't overflow */
         }
         a:hover {
             transform: scale(1.05); /* Slightly enlarge on hover */
         }
         img {
-            width: 250px; /* Fixed size for images */
-            height: 200px; /* Fixed height for images */
+            width: 100%; /* Allow the images to take full width of their container */
+            max-width: 300px; /* Limit maximum width to prevent excessive scaling */
+            height: auto; /* Maintain aspect ratio */
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
             border: 5px solid #FF69B4; /* Hot pink border */
+        }
+        @media (max-width: 600px) {
+            img {
+                max-width: 100%; /* Make images responsive on small screens */
+            }
         }
     </style>
 </head>
