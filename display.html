@@ -1,41 +1,60 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Picture Displayer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Picture Displayer - Image</title>
 </head>
 <body>
-    <!-- Back Button -->
-    <p style="text-align:center;">
-        <a href="index.html">
-            <button style="font-size:100%; text-align:center; width:100%">Back</button>
-        </a>
-    </p>
-    <br>
-    
-    <!-- Container for displaying image -->
-    <div id="image-container" style="text-align: center;"></div>
+  <p style="text-align:center;">
+    <a href="gallery.html">
+      <button style="font-size:100%; text-align:center; width:100%">Back</button>
+    </a>
+  </p>
+  <br>
+  
+  <div id="image-container" style="text-align: center;"></div>
+  <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyB70tMA9-mU8FwX1YZEC2Jg0Ld2Pp9O0ns",
+      authDomain: "calar-ef124.firebaseapp.com",
+      projectId: "calar-ef124",
+      storageBucket: "calar-ef124.appspot.com",
+      messagingSenderId: "14740323506",
+      appId: "1:14740323506:web:21b01da950107baf6d9dab"
+    };
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
 
-    <script>
-        // Function to get URL parameters
-        function getQueryParam(param) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
-        }
+    // Check if the user is logged in
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        loadImage();  // If logged in, load the image
+      } else {
+        window.location.href = "index.html";  // Redirect to login page
+      }
+    });
 
-        // Get the image file name from the URL parameter
-        const imgFile = getQueryParam('img');
-        
-        if (imgFile) {
-            // Create and display the image dynamically
-            const img = document.createElement('img');
-            img.src = `Displayed Pictures/${imgFile}`;
-            img.style.width = '100%';
-            document.getElementById('image-container').appendChild(img);
-        } else {
-            document.getElementById('image-container').innerHTML = 'No image found';
-        }
-    </script>
+    // Function to display the image
+    function loadImage() {
+      function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+      }
+
+      const imgFile = getQueryParam('img');
+      
+      if (imgFile) {
+        const img = document.createElement('img');
+        img.src = `Displayed Pictures/${imgFile}`;
+        img.style.width = '100%';
+        document.getElementById('image-container').appendChild(img);
+      } else {
+        document.getElementById('image-container').innerHTML = 'No image found';
+      }
+    }
+  </script>
 </body>
 </html>
