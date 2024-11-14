@@ -1,89 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Picture Displayer - Image</title>
-  <style>
-    /* Default styling for larger screens */
-    #image-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 10px;
-      padding: 10px;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Picture Displayer - Gallery</title>
+    <style>
+    body {
+        font-family: 'Georgia', serif;
+        background-color: #e0e0e0;
+        background-image: url('https://example.com/path/to/your/background-image.jpg'); /* Add a fantasy background image */
+        background-size: cover;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
-
-    #image-container img {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
+    h1 {
+        text-align: center;
+        color: #FFD700; /* Golden color */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        margin: 10px 0; /* Reduced margin for tighter spacing */
+        font-size: 2.5rem;
+        font-weight: bold;
     }
-
-    button {
-      font-size: 100%;
-      width: 20%;
+    hr {
+        border: 1px solid #FFD700; /* Golden color */
+        width: 50%;
+        margin: 10px auto; /* Reduced margin for tighter spacing */
     }
-
-    /* Media query for mobile devices (screens smaller than 768px) */
-    @media (max-width: 768px) {
-      #image-container {
-        grid-template-columns: 1fr; /* Single column on mobile */
-      }
-
-      button {
+    #gallery-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 20px;
+        gap: 15px; /* Adds consistent spacing between items */
+        max-width: 1200px; /* Max width for larger screens */
+    }
+    a {
         width: 100%;
-        font-size: 120%; /* Larger font for better readability on small screens */
-      }
+        max-width: 400px; /* Maximum width per image to maintain scaling */
+        transition: transform 0.3s;
+        overflow: hidden; /* Ensure that the scaling effect doesn't overflow */
+        display: flex;
     }
-  </style>
+    a:hover {
+        transform: scale(1.05); /* Slightly enlarge on hover */
+    }
+    img {
+        width: 100%; /* Ensures each image fills its container */
+        height: auto; /* Maintain aspect ratio */
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        border: 5px solid #E6E6FA; /* Soft lavender border */
+    }
+    
+    /* Mobile view: single column */
+    @media (max-width: 600px) {
+        h1 {
+            font-size: 2rem; /* Smaller font size on mobile */
+        }
+        a {
+            width: 90%; /* Ensures images fit well on small screens */
+        }
+    }
+
+    /* Medium screens: two columns */
+    @media (min-width: 601px) and (max-width: 900px) {
+        a {
+            width: 45%; /* Two images per row on medium screens */
+        }
+    }
+
+    /* Large screens: three columns */
+    @media (min-width: 901px) {
+        a {
+            width: 30%; /* Three images per row on larger screens */
+        }
+    }
+</style>
 </head>
 <body>
-  <p style="text-align:center;">
-    <a href="gallery.html">
-      <button>Back</button>
-    </a>
-  </p>
-  <br>
-  
-  <div id="image-container" style="text-align: center;"></div>
-  <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
-  <script>
-    // Initialize Firebase
-    const firebaseConfig = {
+
+<h1>Gallery</h1>
+<hr>
+
+<div id="gallery-container"></div>
+
+<script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  const firebaseConfig = {
       apiKey: "AIzaSyB70tMA9-mU8FwX1YZEC2Jg0Ld2Pp9O0ns",
       authDomain: "calar-ef124.firebaseapp.com",
       projectId: "calar-ef124",
       storageBucket: "calar-ef124.appspot.com",
       messagingSenderId: "14740323506",
       appId: "1:14740323506:web:21b01da950107baf6d9dab"
-    };
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
+  };
+  const app = firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
 
-    // Check if the user is logged in
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        loadImages();  // If logged in, load the images
-      } else {
-        window.location.href = "index.html";  // Redirect to login page
-      }
-    });
-
-    // Function to display multiple images in a grid format
-    function loadImages() {
-      function getQueryParam(param) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(param);
-      }
-
-      const imgFiles = ['image1.jpg', 'image2.jpg', 'image3.jpg']; // Replace with dynamic data as needed
-
-      imgFiles.forEach(imgFile => {
-        const img = document.createElement('img');
-        img.src = `Displayed Pictures/${imgFile}`;
-        document.getElementById('image-container').appendChild(img);
-      });
+  // Check if the user is logged in
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      loadGallery();  // If logged in, load the gallery content
+    } else {
+      window.location.href = "index.html";  // Redirect to login page
     }
-  </script>
+  });
+
+  // Function to load gallery content
+  function loadGallery() {
+    fetch('images.txt')
+      .then(response => response.text())
+      .then(data => {
+        const imageFiles = data.trim().split('\n');
+        const imageFolder = 'Displayed Pictures/';
+        const container = document.getElementById('gallery-container');
+        
+        imageFiles.forEach(imageFile => {
+          const link = document.createElement('a');
+          link.href = `display.html?img=${imageFile}`;
+          
+          const img = document.createElement('img');
+          img.src = imageFolder + imageFile;
+          img.alt = imageFile;
+          
+          link.appendChild(img);
+          container.appendChild(link);
+        });
+      })
+      .catch(error => console.error('Error loading image list:', error));
+  }
+</script>
 </body>
 </html>
