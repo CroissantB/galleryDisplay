@@ -26,8 +26,9 @@
     /* Styling for the alternative image */
     #image-container .alt-image {
       align-self: flex-start;
-      height: 50%; /* Keep the alternative image at half the height of the main image */
-      width: auto; /* Automatically adjust width to maintain aspect ratio */
+      height: 50%; /* Stretch the height to half the main image's height */
+      width: auto; /* Keep the width to auto, preventing distortion */
+      object-fit: cover; /* Make sure it covers the space without distortion */
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
