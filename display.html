@@ -20,8 +20,8 @@
     /* Container for images */
     #image-container {
       display: flex;  /* Use Flexbox to place images inline */
-      justify-content: flex-start; /* Align items to the left */
-      align-items: flex-start; /* Align alternative image to the top */
+      justify-content: center; /* Center images horizontally */
+      align-items: center; /* Center images vertically */
       gap: 20px; /* Space between images */
       height: 100vh; /* Fill full viewport height */
       padding: 20px;
@@ -30,7 +30,7 @@
 
     /* Main image styling */
     #image-container .main-image {
-      width: 25%; /* Main image is now 25% of the screen width */
+      width: 50%; /* Main image takes up 50% of the screen width on large screens */
       height: auto; /* Maintain aspect ratio */
       border-radius: 10px; /* Rounded corners */
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
@@ -38,7 +38,7 @@
 
     /* Alternative image styling */
     #image-container .alt-image {
-      width: 15%; /* Alternative image takes 15% of the screen width */
+      width: 25%; /* Alternative image takes 25% of the screen width on large screens */
       height: auto; /* Maintain aspect ratio */
       border-radius: 10px; /* Rounded corners to match the main image */
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
@@ -63,6 +63,17 @@
       button {
         width: 100%;
         font-size: 120%; /* Larger font for better readability on small screens */
+      }
+    }
+
+    /* Media query for website (larger screens) */
+    @media (min-width: 769px) {
+      #image-container .main-image {
+        width: 50%; /* Main image size for desktop/web */
+      }
+
+      #image-container .alt-image {
+        width: 25%; /* Alternative image size for desktop/web */
       }
     }
   </style>
