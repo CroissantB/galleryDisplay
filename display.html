@@ -9,6 +9,7 @@
     #image-container img {
       width: 80%; /* Width for desktop */
       max-width: 800px;
+      margin-bottom: 20px;
     }
 
     button {
@@ -52,6 +53,13 @@
     const app = firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
+    // Dictionary mapping main images to alternative images
+    const imageDictionary = {
+      "img1.jpg": "img2.jpg",
+      "mainImage2.jpg": "alternativeImage2.jpg",
+      "mainImage3.jpg": "alternativeImage3.jpg"
+    };
+
     // Check if the user is logged in
     auth.onAuthStateChanged(user => {
       if (user) {
@@ -61,7 +69,7 @@
       }
     });
 
-    // Function to display the image
+    // Function to display the main image and its alternative if available
     function loadImage() {
       function getQueryParam(param) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -71,9 +79,22 @@
       const imgFile = getQueryParam('img');
       
       if (imgFile) {
-        const img = document.createElement('img');
-        img.src = `Displayed Pictures/${imgFile}`;
-        document.getElementById('image-container').appendChild(img);
+        const container = document.getElementById('image-container');
+        
+        // Display the main image
+        const mainImg = document.createElement('img');
+        mainImg.src = `Displayed Pictures/${imgFile}`;
+        mainImg.alt = "Main Image";
+        container.appendChild(mainImg);
+        
+        // Check if there's an alternative image in the dictionary and display it
+        const alternativeImage = imageDictionary[imgFile];
+        if (alternativeImage) {
+          const altImg = document.createElement('img');
+          altImg.src = `Displayed Pictures/${alternativeImage}`;
+          altImg.alt = "Alternative Image";
+          container.appendChild(altImg);
+        }
       } else {
         document.getElementById('image-container').innerHTML = 'No image found';
       }
