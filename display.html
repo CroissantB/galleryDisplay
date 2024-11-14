@@ -5,32 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Picture Displayer - Image</title>
   <style>
-    /* Container for images, with flex layout */
+    /* Container for images */
     #image-container {
-      display: flex;
-      justify-content: flex-start;
-      align-items: flex-start;
-      gap: 20px; /* Space between images */
-      padding: 20px;
+      position: relative;
+      width: 100%;
+      height: 100vh; /* Make container fill the full screen */
     }
 
-    /* Styling for the main image */
+    /* Main image styling */
     #image-container .main-image {
-      width: 80%; /* Width for desktop */
-      max-width: 800px;
-      height: auto;
+      width: 100%; /* Main image takes full screen width */
+      height: 100%; /* Main image takes full screen height */
+      object-fit: contain; /* Maintain aspect ratio, fill the space */
+    }
+
+    /* Alternative image styling */
+    #image-container .alt-image {
+      position: absolute;
+      top: 20px; /* Small space from top */
+      right: 20px; /* Small space from right */
+      max-width: 50%; /* Half the width of the screen */
+      height: auto; /* Maintain aspect ratio */
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    }
-
-    /* Styling for the alternative image */
-    #image-container .alt-image {
-      align-self: flex-start;
-      height: 50%; /* Stretch the height to half the main image's height */
-      width: auto; /* Keep the width to auto, preventing distortion */
-      object-fit: cover; /* Make sure it covers the space without distortion */
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
 
     button {
@@ -38,21 +35,20 @@
       width: 20%;
     }
 
-    /* Media query for mobile devices (screens smaller than 768px) */
+    /* Media query for mobile devices */
     @media (max-width: 768px) {
       #image-container {
-        flex-direction: column; /* Stack images on smaller screens */
+        height: auto; /* Allow container to resize on smaller screens */
       }
-      
       #image-container .main-image {
         width: 100%;
+        height: auto;
+      }
+      #image-container .alt-image {
+        max-width: 80%; /* Alternative image smaller on mobile */
+        max-height: none;
       }
 
-      #image-container .alt-image {
-        width: 50%; /* Smaller on mobile */
-        max-height: none; /* Remove max height restriction */
-      }
-      
       button {
         width: 100%;
         font-size: 120%; /* Larger font for better readability on small screens */
@@ -86,7 +82,8 @@
 
     // Dictionary mapping main images to alternative images
     const imageDictionary = {
-      "img1.jpg": "img2.jpg",
+      "img1.jpg": "img2.jpg", // img1 has img2 as alternative
+      "mainImage1.jpg": "alternativeImage1.jpg",
       "mainImage2.jpg": "alternativeImage2.jpg",
       "mainImage3.jpg": "alternativeImage3.jpg"
     };
@@ -119,17 +116,21 @@
         mainImg.classList.add('main-image');
         container.appendChild(mainImg);
         
-        // Check if an alternative image exists in the dictionary
-        if (imageDictionary.hasOwnProperty(imgFile)) {
-          const alternativeImage = imageDictionary[imgFile];
-          
-          // If an alternative image is found, display it in the top-right
-          const altImg = document.createElement('img');
-          altImg.src = `Displayed Pictures/${alternativeImage}`;
-          altImg.alt = "Alternative Image";
-          altImg.classList.add('alt-image');
-          container.appendChild(altImg);
-        }
+        // When the main image is loaded, display the alternative image if available
+        mainImg.onload = () => {
+          // Check if an alternative image exists in the dictionary
+          if (imageDictionary.hasOwnProperty(imgFile)) {
+            const alternativeImage = imageDictionary[imgFile];
+            
+            // If an alternative image is found, display it on the top-right
+            const altImg = document.createElement('img');
+            altImg.src = `Displayed Pictures/${alternativeImage}`;
+            altImg.alt = "Alternative Image";
+            altImg.classList.add('alt-image');
+            
+            container.appendChild(altImg);
+          }
+        };
       } else {
         document.getElementById('image-container').innerHTML = 'No image found';
       }
