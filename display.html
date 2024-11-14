@@ -5,30 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Picture Displayer - Image</title>
   <style>
-    /* Container for main and alternative images */
+    /* Container for images, with flex layout */
     #image-container {
-      position: relative;
       display: flex;
-      justify-content: center;
-      align-items: center;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: 20px; /* Space between images */
+      padding: 20px;
     }
 
-    /* Styling for main image */
+    /* Styling for the main image */
     #image-container .main-image {
-      width: 80%; /* Set width for desktop */
+      width: 80%; /* Width for desktop */
       max-width: 800px;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     }
 
-    /* Styling for alternative image in the top-right corner */
+    /* Styling for the alternative image */
     #image-container .alt-image {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 40%; /* Adjust width for half the height of main image */
-      height: auto;
-      max-height: 50%; /* Limit height to half of main image */
+      align-self: flex-start;
+      max-height: 50%; /* Keep the alternative image at half the height of the main image */
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
@@ -41,7 +38,7 @@
     /* Media query for mobile devices (screens smaller than 768px) */
     @media (max-width: 768px) {
       #image-container {
-        flex-direction: column;
+        flex-direction: column; /* Stack images on smaller screens */
       }
       
       #image-container .main-image {
@@ -50,8 +47,7 @@
 
       #image-container .alt-image {
         width: 50%; /* Smaller on mobile */
-        top: 10px;
-        right: 10px;
+        max-height: none; /* Remove max height restriction */
       }
       
       button {
@@ -124,7 +120,7 @@
         if (imageDictionary.hasOwnProperty(imgFile)) {
           const alternativeImage = imageDictionary[imgFile];
           
-          // If an alternative image is found, display it in the top-right corner
+          // If an alternative image is found, display it in the top-right
           const altImg = document.createElement('img');
           altImg.src = `Displayed Pictures/${alternativeImage}`;
           altImg.alt = "Alternative Image";
