@@ -30,7 +30,7 @@
 
     /* Main image styling */
     #image-container .main-image {
-      width: 40%; /* Main image takes up 40% of the screen width on larger screens */
+      width: 35%; /* Slightly reduced size for the main image */
       height: auto; /* Maintain aspect ratio */
       border-radius: 10px; /* Rounded corners */
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
@@ -38,7 +38,7 @@
 
     /* Alternative image styling */
     #image-container .alt-image {
-      width: 20%; /* Alternative image takes up 20% of the screen width on larger screens */
+      width: 15%; /* Slightly smaller size for the alternative image */
       height: auto; /* Maintain aspect ratio */
       border-radius: 10px; /* Rounded corners to match the main image */
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
@@ -69,11 +69,11 @@
     /* Media query for website (larger screens) */
     @media (min-width: 769px) {
       #image-container .main-image {
-        width: 40%; /* Main image size for desktop/web */
+        width: 35%; /* Main image size for desktop/web */
       }
 
       #image-container .alt-image {
-        width: 20%; /* Alternative image size for desktop/web */
+        width: 15%; /* Alternative image size for desktop/web */
       }
     }
   </style>
@@ -105,7 +105,7 @@
 
     // Dictionary mapping main images to alternative images
     const imageDictionary = {
-      "img2.jpg": "wep2.jpg", // img1 has img2 as alternative
+      "img2.jpg": "wep1.jpg", // img1 has img2 as alternative
       "mainImage1.jpg": "alternativeImage1.jpg",
       "mainImage2.jpg": "alternativeImage2.jpg",
       "mainImage3.jpg": "alternativeImage3.jpg"
