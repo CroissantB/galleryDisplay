@@ -21,7 +21,7 @@
     #image-container {
       display: flex;  /* Use Flexbox to place images inline */
       justify-content: center; /* Center images horizontally */
-      align-items: center; /* Center images vertically */
+      align-items: flex-start; /* Align images to the top */
       gap: 20px; /* Space between images */
       height: 100vh; /* Fill full viewport height */
       padding: 20px;
@@ -30,7 +30,7 @@
 
     /* Main image styling */
     #image-container .main-image {
-      width: 50%; /* Main image takes up 50% of the screen width on large screens */
+      width: 40%; /* Main image takes up 40% of the screen width on larger screens */
       height: auto; /* Maintain aspect ratio */
       border-radius: 10px; /* Rounded corners */
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
@@ -38,7 +38,7 @@
 
     /* Alternative image styling */
     #image-container .alt-image {
-      width: 25%; /* Alternative image takes 25% of the screen width on large screens */
+      width: 20%; /* Alternative image takes up 20% of the screen width on larger screens */
       height: auto; /* Maintain aspect ratio */
       border-radius: 10px; /* Rounded corners to match the main image */
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
@@ -69,11 +69,11 @@
     /* Media query for website (larger screens) */
     @media (min-width: 769px) {
       #image-container .main-image {
-        width: 50%; /* Main image size for desktop/web */
+        width: 40%; /* Main image size for desktop/web */
       }
 
       #image-container .alt-image {
-        width: 25%; /* Alternative image size for desktop/web */
+        width: 20%; /* Alternative image size for desktop/web */
       }
     }
   </style>
@@ -105,7 +105,7 @@
 
     // Dictionary mapping main images to alternative images
     const imageDictionary = {
-      "img1.jpg": "img2.jpg", // img1 has img2 as alternative
+      "img2.jpg": "wep2.jpg", // img1 has img2 as alternative
       "mainImage1.jpg": "alternativeImage1.jpg",
       "mainImage2.jpg": "alternativeImage2.jpg",
       "mainImage3.jpg": "alternativeImage3.jpg"
@@ -147,7 +147,7 @@
             
             // If an alternative image is found, display it inline
             const altImg = document.createElement('img');
-            altImg.src = `Displayed Pictures/${alternativeImage}`;
+            altImg.src = `DisplayedWeaponPictures/${alternativeImage}`;
             altImg.alt = "Alternative Image";
             altImg.classList.add('alt-image');
             
