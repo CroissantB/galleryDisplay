@@ -5,25 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Picture Displayer - Image</title>
   <style>
-    /* Flex container for main and alternative images */
+    /* Container for main and alternative images */
     #image-container {
+      position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 20px; /* Space between images */
     }
 
     /* Styling for main image */
     #image-container .main-image {
       width: 80%; /* Set width for desktop */
       max-width: 800px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     }
 
-    /* Styling for alternative image */
+    /* Styling for alternative image in the top-right corner */
     #image-container .alt-image {
-      width: 40%; /* Set width to half of the main image */
-      height: auto; /* Keep aspect ratio */
-      max-height: 50%; /* Limit the height to half of the main image's max height */
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40%; /* Adjust width for half the height of main image */
+      height: auto;
+      max-height: 50%; /* Limit height to half of main image */
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
 
     button {
@@ -34,7 +41,7 @@
     /* Media query for mobile devices (screens smaller than 768px) */
     @media (max-width: 768px) {
       #image-container {
-        flex-direction: column; /* Stack images on smaller screens */
+        flex-direction: column;
       }
       
       #image-container .main-image {
@@ -43,7 +50,8 @@
 
       #image-container .alt-image {
         width: 50%; /* Smaller on mobile */
-        max-height: none; /* Remove max height restriction */
+        top: 10px;
+        right: 10px;
       }
       
       button {
@@ -79,7 +87,7 @@
 
     // Dictionary mapping main images to alternative images
     const imageDictionary = {
-      "img1.jpg": "img1.jpg",
+      "img1.jpg": "img2.jpg",
       "mainImage2.jpg": "alternativeImage2.jpg",
       "mainImage3.jpg": "alternativeImage3.jpg"
     };
@@ -116,7 +124,7 @@
         if (imageDictionary.hasOwnProperty(imgFile)) {
           const alternativeImage = imageDictionary[imgFile];
           
-          // If an alternative image is found, display it
+          // If an alternative image is found, display it in the top-right corner
           const altImg = document.createElement('img');
           altImg.src = `Displayed Pictures/${alternativeImage}`;
           altImg.alt = "Alternative Image";
