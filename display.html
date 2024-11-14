@@ -5,14 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Picture Displayer - Image</title>
   <style>
+    /* Body and button styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    button {
+      font-size: 100%;
+      width: 20%;
+    }
+
     /* Container for images */
     #image-container {
       display: flex;  /* Use Flexbox to place images inline */
       justify-content: flex-start; /* Align items to the left */
-      align-items: center; /* Vertically center the images */
+      align-items: flex-start; /* Align alternative image to the top */
       gap: 20px; /* Space between images */
       height: 100vh; /* Fill full viewport height */
       padding: 20px;
+      margin-top: 20px; /* Ensure there's space above for the button */
     }
 
     /* Main image styling */
@@ -27,11 +40,6 @@
       height: auto; /* Maintain aspect ratio */
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    }
-
-    button {
-      font-size: 100%;
-      width: 20%;
     }
 
     /* Media query for mobile devices */
@@ -58,13 +66,14 @@
   </style>
 </head>
 <body>
+
   <p style="text-align:center;">
     <a href="gallery.html">
       <button>Back</button>
     </a>
   </p>
   <br>
-  
+
   <div id="image-container"></div>
 
   <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
@@ -137,5 +146,6 @@
       }
     }
   </script>
+
 </body>
 </html>
